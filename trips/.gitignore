@@ -1,0 +1,14 @@
+# Maven
+/target/
+
+# Eclipse IDE
+/.project
+/.classpath
+/.settings/
+
+# Log files
+*.log
+
+# OS files (like Mac .DS_Store)
+.DS_Store
+pipeline.txt

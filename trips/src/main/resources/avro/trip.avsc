@@ -1,0 +1,709 @@
+{
+  "namespace": "org.pipeline.trips.avro",
+  "type": "record",
+  "name": "Trip",
+  "fields": [
+    {"name": "schema_version", "type": ["null", "int"], "default": null},
+    { "name": "mongo_id", "type": "string" },
+    {"name": "accepted_at", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+    {"name": "adjusted_to", "type": ["null", {"type": "array", "items": {
+      "name": "AdjustedTo", "type": "record", "fields": [
+        {"name": "trip_id", "type": ["null", "string"], "default": null},
+        {"name": "trip_uid", "type": ["null", "string"], "default": null},
+        {"name": "status", "type": ["null", "string"], "default": null},
+        {"name": "adjustedTo_id", "type": ["null", "string"], "default": null}
+      ]
+    }}], "default": null},
+    {"name": "applied_taxes", "type": ["null", {"type": "array", "items": {
+      "name": "AppliedTax", "type": "record", "fields": [
+        {"name": "type", "type": ["null", "string"], "default": null},
+        {"name": "label", "type": ["null", {
+          "name": "Label", "type": "record", "fields": [
+            {"name": "ar", "type": ["null", "string"], "default": null},
+            {"name": "en", "type": ["null", "string"], "default": null},
+            {"name": "fr", "type": ["null", "string"], "default": null}
+          ]
+        }], "default": null},
+        {"name": "code", "type": ["null", "string"], "default": null},
+        {"name": "amount", "type": ["null", "double"], "default": null},
+        {"name": "reversableAmount", "type": ["null", "int"], "default": null},
+        {"name": "onYassirBenefit", "type": ["null", "int"], "default": null},
+        {"name": "tax_id", "type": ["null", "string"], "default": null}
+      ]
+    }}], "default": null},
+    {"name": "applied_taxes_driver", "type": ["null", {"type": "array", "items": "AppliedTax"}], "default": null},
+    {"name": "applied_taxes_rider", "type": ["null", {"type": "array", "items": "AppliedTax"}], "default": null},
+    {"name": "applied_taxes_rider_visible", "type": ["null", {"type": "array", "items": "AppliedTax"}], "default": null},
+    {"name": "applied_taxes_rider_visible_invoices", "type": ["null", {"type": "array", "items": "AppliedTax"}], "default": null},
+    {"name": "arrived_at", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+    {"name": "assigned_at", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+    {"name": "assigned_drivers", "type": ["null", {"type": "array", "items": "string"}], "default": null},
+    {"name": "b2b_trip_request_approval", "type": ["null", {
+        "name": "B2BTripRequestApproval", "type": "record", "fields": [
+            {"name": "approval_needed", "type": ["null", "boolean"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "base_cost", "type": ["null", "double"], "default": null},
+    {"name": "booked_for", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+    {"name": "bookingConfigs", "type": ["null", {
+        "name": "BookingConfigs", "type": "record", "fields": [
+            {"name": "driverConfirmationTimeoutMinutes", "type": ["null", "int"], "default": null},
+            {"name": "opsManualDispatchWindowMinutes", "type": ["null", "int"], "default": null},
+            {"name": "opsManualRiderConfirmationWindowMinutes", "type": ["null", "int"], "default": null},
+            {"name": "postRiderConfirmationDispatchMinutes", "type": ["null", "int"], "default": null},
+            {"name": "preBookingDriverConfirmationMinutes", "type": ["null", "int"], "default": null},
+            {"name": "preBookingRiderConfirmationMinutes", "type": ["null", "int"], "default": null},
+            {"name": "riderConfirmationTimeoutMinutes", "type": ["null", "int"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "boost", "type": ["null", {
+        "name": "Boost", "type": "record", "fields": [
+            {"name": "history", "type": ["null", {"type": "array", "items": "string"}], "default": null},
+            {"name": "value", "type": ["null", "int"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "business", "type": ["null", "string"], "default": null},
+    {"name": "campaign_code", "type": ["null", "string"], "default": null},
+    {"name": "cancel_date_time", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+    {"name": "candidates", "type": ["null", {"type": "array", "items": {
+        "name": "Candidate", "type": "record", "fields": [
+            {"name": "driver", "type": ["null", "string"], "default": null},
+            {"name": "assigned_at", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+            {"name": "rejected_at", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+            {"name": "rejection_type", "type": ["null", "string"], "default": null},
+            {"name": "candidate_id", "type": ["null", "string"], "default": null}
+        ]
+    }}], "default": null},
+    {"name": "candidates_canceled", "type": ["null", {"type": "array", "items": "string"}], "default": null},
+    {"name": "carpooling", "type": ["null", "string"], "default": null},
+    {"name": "challenge", "type": ["null", {
+        "name": "Challenge", "type": "record", "fields": [
+            {"name": "id", "type": ["null", "string"], "default": null},
+            {"name": "uid", "type": ["null", "string"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "client", "type": ["null", "string"], "default": null},
+    {"name": "company", "type": ["null", "string"], "default": null},
+    {"name": "cost_breakdown", "type": ["null", {
+        "name": "CostBreakdown", "type": "record", "fields": [
+            {"name": "initial_cost", "type": ["null", "double"], "default": null},
+            {"name": "original_cost", "type": ["null", "double"], "default": null},
+            {"name": "net_cost_initial", "type": ["null", "double"], "default": null},
+            {"name": "net_cost_post_discounts", "type": ["null", "double"], "default": null},
+            {"name": "total_taxes", "type": ["null", "double"], "default": null},
+            {"name": "total_taxes_rider", "type": ["null", "double"], "default": null},
+            {"name": "total_taxes_driver", "type": ["null", "double"], "default": null},
+            {"name": "yassirShare", "type": ["null", "int"], "default": null},
+            {"name": "b2b_commission_rate", "type": ["null", "double"], "default": null},
+            {"name": "b2b_commission_amount", "type": ["null", "double"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "cost_breakdown_sub_trip", "type": ["null", {"type": "array", "items": {
+        "name": "CostBreakdownSubTrip", "type": "record", "fields": [
+            {"name": "initial_cost", "type": ["null", "int"], "default": null},
+            {"name": "original_cost", "type": ["null", "int"], "default": null},
+            {"name": "net_cost_initial", "type": ["null", "double"], "default": null},
+            {"name": "net_cost_post_discounts", "type": ["null", "int"], "default": null},
+            {"name": "total_taxes", "type": ["null", "int"], "default": null},
+            {"name": "total_taxes_rider", "type": ["null", "int"], "default": null},
+            {"name": "total_taxes_driver", "type": ["null", "int"], "default": null},
+            {"name": "cost_breakdown_sub_trip_id", "type": ["null", "string"], "default": null}
+        ]
+    }}], "default": null},
+    {"name": "country", "type": ["null", "string"], "default": null},
+    {"name": "coupon", "type": ["null", "string"], "default": null},
+    {"name": "couponId", "type": ["null", "string"], "default": null},
+    {"name": "couponLineId", "type": ["null", "string"], "default": null},
+    {"name": "created_at", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+    {"name": "created_from_dash", "type": ["null", "boolean"], "default": null},
+    {"name": "currency", "type": ["null", "string"], "default": null},
+    {"name": "currency_label", "type": ["null", "Label"], "default": null},
+    
+    {"name": "dataSaveAllChangesOnTripPricing", "type": ["null", {
+        "name": "DataSaveAllChangesOnTripPricing", "type": "record", "fields": [
+            {"name": "coupon", "type": ["null", {
+                "name": "CouponDetails", "type": "record", "fields": [
+                    {"name": "code", "type": ["null", "string"], "default": null},
+                    {"name": "isUsed", "type": ["null", "boolean"], "default": null},
+                    {"name": "isValid", "type": ["null", "boolean"], "default": null},
+                    {"name": "v", "type": ["null", "int"], "default": null}
+                ]
+            }], "default": null},
+            {"name": "couponLineObj", "type": ["null", {
+                "name": "CouponLineObj", "type": "record", "fields": [
+                    {"name": "discountRatio", "type": ["null", "double"], "default": null},
+                    {"name": "discountFlat", "type": ["null", "int"], "default": null},
+                    {"name": "maxAmount", "type": ["null", "int"], "default": null},
+                    {"name": "couponlineID", "type": ["null", "string"], "default": null},
+                    {"name": "couponName", "type": ["null", "string"], "default": null},
+                    {"name": "service", "type": ["null", "string"], "default": null},
+                    {"name": "maxPrice", "type": ["null", "double"], "default": null},
+                    {"name": "minPrice", "type": ["null", "int"], "default": null},
+                    {"name": "couponId", "type": ["null", "string"], "default": null}
+                ]
+            }], "default": null},
+            
+            {"name": "discountValues", "type": ["null", {
+                "name": "DiscountValues", "type": "record", "fields": [
+                    {"name": "autoDiscountRatio", "type": ["null", "double"], "default": null},
+                    {"name": "codeName", "type": ["null", "string"], "default": null},
+                    {"name": "discountRatio", "type": ["null", "double"], "default": null},
+                    {"name": "reductionDiscountedAmount", "type": ["null", "double"], "default": null},
+                    {"name": "discountFlat", "type": ["null", "int"], "default": null},
+                    {"name": "maxAmount", "type": ["null", "int"], "default": null},
+                    {"name": "campaignName", "type": ["null", "string"], "default": null},
+                    {"name": "showAppliedReduction", "type": ["null", "boolean"], "default": null},
+                    {"name": "isReductionAccumulative", "type": ["null", "boolean"], "default": null},
+                    {"name": "minPrice", "type": ["null", "int"], "default": null},
+                    {"name": "maxPrice", "type": ["null", "int"], "default": null}
+                ]
+            }], "default": null},
+            
+            {"name": "inflationValues", "type": ["null", {
+                "name": "InflationValues", "type": "record", "fields": [
+                    {"name": "inflation_values_id", "type": ["null", "string"], "default": null},
+                    {"name": "codeName", "type": ["null", "string"], "default": null},
+                    {"name": "inflationMaxAmount", "type": ["null", "int"], "default": null},
+                    {"name": "inflationMinAmount", "type": ["null", "int"], "default": null},
+                    {"name": "inflationRatio", "type": ["null", "double"], "default": null}
+                ]
+            }], "default": null},
+            {"name": "pricingLine", "type": ["null", {
+                "name": "PricingLine", "type": "record", "fields": [
+                    {"name": "destination", "type": ["null", "string"], "default": null},
+                    {"name": "destination_zone", "type": ["null", "string"], "default": null},
+                    {"name": "pickup", "type": ["null", "string"], "default": null},
+                    {"name": "pickup_zone", "type": ["null", "string"], "default": null},
+                    {"name": "service", "type": ["null", "string"], "default": null},
+                    {"name": "st", "type": ["null", "string"], "default": null},
+                    {"name": "tarifs", "type": ["null", {
+                        "name": "Tarifs", "type": "record", "fields": [
+                            {"name": "min_price", "type": ["null", "int"], "default": null},
+                            {"name": "base_price", "type": ["null", "double"], "default": null},
+                            {"name": "minute_price", "type": ["null", "double"], "default": null},
+                            {"name": "km_price", "type": ["null", "double"], "default": null}
+                        ]
+                    }], "default": null},
+                    {"name": "variant", "type": ["null", "string"], "default": null}
+                ]
+            }], "default": null},
+            {"name": "pricingLines", "type": ["null", {"type": "array", "items": {
+                "name": "PricingLineSimple", "type": "record", "fields": [
+                    {"name": "pickup", "type": ["null", "string"], "default": null},
+                    {"name": "destination", "type": ["null", "string"], "default": null},
+                    {"name": "tarifs", "type": ["null", {
+                        "name": "TarifsSimple", "type": "record", "fields": [
+                            {"name": "min_price", "type": ["null", "int"], "default": null},
+                            {"name": "base_price", "type": ["null", "int"], "default": null},
+                            {"name": "minute_price", "type": ["null", "int"], "default": null},
+                            {"name": "km_price", "type": ["null", "int"], "default": null}
+                        ]
+                    }], "default": null},
+                    {"name": "variant", "type": ["null", "string"], "default": null}
+                ]
+            }}], "default": null}
+        ]
+    }], "default": null},
+    {"name": "deflation_factor_code", "type": ["null", "string"], "default": null},
+    {"name": "destination", "type": ["null", {
+        "name": "Location", "type": "record", "fields": [
+            {"name": "type", "type": ["null", "string"], "default": null},
+            {"name": "coordinates", "type": ["null", {"type": "array", "items": "double"}], "default": null},
+            {"name": "formatted_address", "type": ["null", "string"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "destination_details", "type": ["null", {
+        "name": "LocationDetails", "type": "record", "fields": [
+		{"name": "geohashs_h3", "type": ["null", {
+		    "name": "GeoHashH3", "type": "record", "fields": [
+		        {"name": "level4", "type": ["null", "string"], "default": null, "aliases": ["_4", "4"]},
+		        {"name": "level5", "type": ["null", "string"], "default": null, "aliases": ["_5", "5"]},
+		        {"name": "level6", "type": ["null", "string"], "default": null, "aliases": ["_6", "6"]},
+		        {"name": "level7", "type": ["null", "string"], "default": null, "aliases": ["_7", "7"]},
+		        {"name": "level8", "type": ["null", "string"], "default": null, "aliases": ["_8", "8"]},
+		        {"name": "level9", "type": ["null", "string"], "default": null, "aliases": ["_9", "9"]}
+		    ]
+		}], "default": null},
+            {"name": "lat", "type": ["null", "string"], "default": null},
+            {"name": "lng", "type": ["null", "string"], "default": null},
+            {"name": "lvl0_id", "type": ["null", "string"], "default": null},
+            {"name": "lvl0_label", "type": ["null", "string"], "default": null},
+            {"name": "lvl1_id", "type": ["null", "string"], "default": null},
+            {"name": "lvl1_label", "type": ["null", "string"], "default": null},
+            {"name": "lvl2_id", "type": ["null", "string"], "default": null},
+            {"name": "lvl2_label", "type": ["null", "string"], "default": null},
+            {"name": "lvl3_id", "type": ["null", "string"], "default": null},
+            {"name": "lvl3_label", "type": ["null", "string"], "default": null},
+            {"name": "map_address", "type": ["null", "string"], "default": null},
+            {"name": "map_path", "type": ["null", "string"], "default": null},
+            {"name": "zone_code", "type": ["null", "string"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "details", "type": ["null", {
+        "name": "TripDetails", "type": "record", "fields": [
+            {"name": "service", "type": ["null", {
+                "name": "Service", "type": "record", "fields": [
+                    {"name": "id", "type": ["null", "string"], "default": null},
+                    {"name": "label", "type": ["null", "Label"], "default": null}
+                ]
+            }], "default": null},
+            {"name": "servicetype", "type": ["null", {
+                "name": "ServiceType", "type": "record", "fields": [
+                    {"name": "id", "type": ["null", "string"], "default": null},
+                    {"name": "label", "type": ["null", "Label"], "default": null}
+                ]
+            }], "default": null}
+        ]
+    }], "default": null},
+    {"name": "directions_service", "type": ["null", "string"], "default": null},
+    {"name": "discount", "type": ["null", "double"], "default": null},
+    {"name": "discount_ratio", "type": ["null", {
+        "name": "DiscountRatio", "type": "record", "fields": [
+            {"name": "percent", "type": ["null", "double"], "default": null},
+            {"name": "amount", "type": ["null", "int"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "discounted_cost", "type": ["null", "double"], "default": null},
+    {"name": "dispatchCounter", "type": ["null", "int"], "default": null},
+    {"name": "dispatch_config", "type": ["null", {
+        "name": "DispatchConfig", "type": "record", "fields": [
+            {"name": "max_candidates", "type": ["null", "int"], "default": null},
+            {"name": "max_requests", "type": ["null", "int"], "default": null},
+            {"name": "drivers_batch", "type": ["null", "int"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "dispatch_timeout", "type": ["null", "int"], "default": null},
+    {"name": "dispatched_at", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+    {"name": "driver", "type": ["null", "string"], "default": null},
+    {"name": "driver_cancel_reason", "type": ["null", {
+        "name": "CancelReason", "type": "record", "fields": [
+            {"name": "comment", "type": ["null", "string"], "default": null},
+            {"name": "reason", "type": ["null", "string"], "default": null},
+            {"name": "reasonId", "type": ["null", "string"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "driver_device", "type": ["null", {
+        "name": "DeviceProfile", "type": "record", "fields": [
+            {"name": "active", "type": ["null", "boolean"], "default": null},
+            {"name": "app_lang", "type": ["null", "string"], "default": null},
+            {"name": "app_version", "type": ["null", "string"], "default": null},
+            {"name": "brand", "type": ["null", "string"], "default": null},
+            {"name": "created_at", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+            {"name": "device_id", "type": ["null", "string"], "default": null},
+            {"name": "device_lang", "type": ["null", "string"], "default": null},
+            {"name": "fcm_token", "type": ["null", "string"], "default": null},
+            {"name": "last_used", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+            {"name": "location", "type": ["null", {"name": "DeviceLocation", "type": "record", "fields": [
+                {"name": "coordinates", "type": ["null", {"type": "array", "items": "string"}], "default": null}
+            ]}], "default": null},
+            {"name": "model", "type": ["null", "string"], "default": null},
+            {"name": "os_version", "type": ["null", "string"], "default": null},
+            {"name": "platform", "type": ["null", "string"], "default": null},
+            {"name": "retired_at", "type": ["null", "string"], "default": null},
+            {"name": "ya_device_id", "type": ["null", "string"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "driver_devices_tokens", "type": ["null", {"type": "array", "items": "string"}], "default": null},
+    {"name": "driver_profile", "type": ["null", {
+        "name": "DriverProfile", "type": "record", "fields": [
+            {"name": "app_platform", "type": ["null", "string"], "default": null},
+            {"name": "app_version", "type": ["null", "string"], "default": null},
+            {"name": "car", "type": ["null", {
+                "name": "Car", "type": "record", "fields": [
+                    {"name": "model", "type": ["null", "string"], "default": null},
+                    {"name": "marque", "type": ["null", "string"], "default": null},
+                    {"name": "immat", "type": ["null", "string"], "default": null},
+                    {"name": "color", "type": ["null", "string"], "default": null},
+                    {"name": "energie", "type": ["null", "string"], "default": null},
+                    {"name": "year", "type": ["null", "int"], "default": null}
+                ]
+            }], "default": null},
+            {"name": "company", "type": ["null", "string"], "default": null},
+            {"name": "country", "type": ["null", "string"], "default": null},
+            {"name": "display_name", "type": ["null", "string"], "default": null},
+            {"name": "driver", "type": ["null", "string"], "default": null},
+            {"name": "driver_uid", "type": ["null", "string"], "default": null},
+            {"name": "full_name", "type": ["null", "string"], "default": null},
+            {"name": "gender", "type": ["null", "string"], "default": null},
+            {"name": "is_verified", "type": ["null", "boolean"], "default": null},
+            {"name": "location", "type": ["null", {
+                "name": "DriverLocation", "type": "record", "fields": [
+                    {"name": "lat", "type": ["null", "double"], "default": null},
+                    {"name": "lng", "type": ["null", "double"], "default": null}
+                ]
+            }], "default": null},
+            {"name": "phone", "type": ["null", "string"], "default": null},
+            {"name": "picture", "type": ["null", "string"], "default": null},
+            {"name": "rating", "type": ["null", "double"], "default": null},
+            {"name": "status", "type": ["null", "string"], "default": null},
+            {"name": "wilaya", "type": ["null", "int"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "driver_review", "type": ["null", {
+        "name": "Review", "type": "record", "fields": [
+            {"name": "comment", "type": ["null", "string"], "default": null},
+            {"name": "rating", "type": ["null", "int"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "driver_review_counts", "type": ["null", {"type": "array", "items": {
+        "name": "ReviewCount", "type": "record", "fields": [
+            {"name": "code", "type": ["null", "string"], "default": null},
+            {"name": "comment", "type": ["null", "string"], "default": null},
+            {"name": "count", "type": ["null", "int"], "default": null},
+            {"name": "review_count_id", "type": ["null", "string"], "default": null}
+        ]
+    }}], "default": null},
+    {"name": "driver_shares", "type": ["null", {
+        "name": "DriverShares", "type": "record", "fields": [
+            {"name": "balance", "type": ["null", "double"], "default": null},
+            {"name": "benefit", "type": ["null", "double"], "default": null},
+            {"name": "benefit_net", "type": ["null", "double"], "default": null},
+            {"name": "driver2yassir", "type": ["null", "double"], "default": null},
+            {"name": "driver_benefit_tax", "type": ["null", "int"], "default": null},
+            {"name": "driver_taxes_list_visible", "type": ["null", {"type": "array", "items": {
+                "name": "DriverTax", "type": "record", "fields": [
+                    {"name": "amount", "type": ["null", "double"], "default": null},
+                    {"name": "label", "type": ["null", "Label"], "default": null},
+                    {"name": "code", "type": ["null", "string"], "default": null},
+                    {"name": "driver_tax_id", "type": ["null", "string"], "default": null}
+                ]
+            }}], "default": null},
+            {"name": "yassir2driver", "type": ["null", "double"], "default": null},
+            {"name": "yassirCommission", "type": ["null", {
+                "name": "YassirCommission", "type": "record", "fields": [
+                    {"name": "history", "type": ["null", {"type": "array", "items": {
+                        "name": "CommissionHistory", "type": "record", "fields": [
+                            {"name": "newPercentValue", "type": ["null", "double"], "default": null},
+                            {"name": "oldPercentValue", "type": ["null", "double"], "default": null},
+                            {"name": "reductionId", "type": ["null", "string"], "default": null},
+                            {"name": "reductionName", "type": ["null", "string"], "default": null},
+                            {"name": "type", "type": ["null", "string"], "default": null}
+                        ]
+                    }}], "default": null},
+                    {"name": "isReduced", "type": ["null", "boolean"], "default": null},
+                    {"name": "percent", "type": ["null", "double"], "default": null}
+                ]
+            }], "default": null}
+        ]
+    }], "default": null},
+    {"name": "driver_to_rider", "type": ["null", {
+        "name": "DriverToRiderProgress", "type": "record", "fields": [
+            {"name": "driver_progress", "type": ["null", {
+                "name": "ProgressDetails", "type": "record", "fields": [
+                    {"name": "accuracy", "type": ["null", "double"], "default": null},
+                    {"name": "bearing", "type": ["null", "double"], "default": null},
+                    {"name": "direction_updated_at", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+                    {"name": "estimated_arrival_time", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+                    {"name": "estimated_distance", "type": ["null", "int"], "default": null},
+                    {"name": "estimated_time", "type": ["null", "int"], "default": null},
+                    {"name": "polyline", "type": ["null", "string"], "default": null},
+                    {"name": "speed", "type": ["null", "double"], "default": null}
+                ]
+            }], "default": null},
+            {"name": "estimated_arrival_time", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+            {"name": "estimated_distance", "type": ["null", "int"], "default": null},
+            {"name": "estimated_time", "type": ["null", "int"], "default": null},
+            {"name": "polyline", "type": ["null", "string"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "epay", "type": ["null", {
+        "name": "Epay", "type": "record", "fields": [
+            {"name": "amount", "type": ["null", "int"], "default": null},
+            {"name": "method", "type": ["null", "string"], "default": null},
+            {"name": "order_id", "type": ["null", "string"], "default": null},
+            {"name": "second_payment_method", "type": ["null", "string"], "default": null},
+            {"name": "status", "type": ["null", {
+                "name": "EpayStatus", "type": "record", "fields": [
+                    {"name": "code", "type": ["null", "int"], "default": null},
+                    {"name": "created_at", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+                    {"name": "current", "type": ["null", "string"], "default": null},
+                    {"name": "note", "type": ["null", "string"], "default": null},
+                    {"name": "updated_at", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null}
+                ]
+            }], "default": null},
+            {"name": "type", "type": ["null", "string"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "estimated_arrived_at", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+    {"name": "estimated_cost", "type": ["null", "double"], "default": null},
+    {"name": "estimated_cost_with_boost", "type": ["null", "double"], "default": null},
+    {"name": "estimated_distance", "type": ["null", "int"], "default": null},
+    {"name": "estimated_eta", "type": ["null", "int"], "default": null},
+    {"name": "finalDestinationArrivalNotificationSent", "type": ["null", "boolean"], "default": null},
+    {"name": "finished_at", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+    {"name": "finished_by", "type": ["null", "string"], "default": null},
+    {"name": "flags", "type": ["null", {
+        "name": "Flags", "type": "record", "fields": [
+            {"name": "shouldReduceBalance", "type": ["null", "boolean"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "fraud_status", "type": ["null", "string"], "default": null},
+    {"name": "full_active_taxes_dict", "type": ["null", {
+        "name": "FullActiveTaxesDict", "type": "map", "values": {"type": "array", "items": {
+            "name": "Tax", "type": "record", "fields": [
+                {"name": "tax_id", "type": ["null", "string"], "default": null},
+                {"name": "code", "type": ["null", "string"], "default": null},
+                {"name": "country", "type": ["null", "string"], "default": null},
+                {"name": "label", "type": ["null", "Label"], "default": null},
+                {"name": "level_path", "type": ["null", "string"], "default": null},
+                {"name": "max_tax_value", "type": ["null", "double"], "default": null},
+                {"name": "max_value", "type": ["null", "double"], "default": null},
+                {"name": "min_tax_value", "type": ["null", "int"], "default": null},
+                {"name": "min_value", "type": ["null", "int"], "default": null},
+                {"name": "order", "type": ["null", "int"], "default": null},
+                {"name": "paymentType", "type": ["null", {"type": "array", "items": "string"}], "default": null},
+                {"name": "percent", "type": ["null", "double"], "default": null},
+                {"name": "reverse", "type": ["null", "int"], "default": null},
+                {"name": "service", "type": ["null", "string"], "default": null},
+                {"name": "servicetype", "type": ["null", "string"], "default": null},
+                {"name": "st", "type": ["null", "string"], "default": null},
+                {"name": "tripCat", "type": ["null", {"type": "array", "items": "string"}], "default": null},
+                {"name": "tripType", "type": ["null", {"type": "array", "items": "string"}], "default": null},
+                {"name": "type", "type": ["null", "string"], "default": null},
+                {"name": "value", "type": ["null", "string"], "default": null},
+                {"name": "value_type", "type": ["null", "string"], "default": null},
+                {"name": "visibility_invoice", "type": ["null", {"type": "array", "items": "string"}], "default": null},
+                {"name": "visibility_ui", "type": ["null", {"type": "array", "items": "string"}], "default": null}
+            ]
+        }}
+    }], "default": null},
+    {"name": "hidden_surcharge_rate", "type": ["null", "double"], "default": null},
+    {"name": "inflation_factor_code", "type": ["null", "string"], "default": null},
+    {"name": "isB2BRewardTrip", "type": ["null", "boolean"], "default": null},
+    {"name": "isBackToBack", "type": ["null", "boolean"], "default": null},
+    {"name": "isDelivery", "type": ["null", "boolean"], "default": null},
+    {"name": "isPending3DSAuthentication", "type": ["null", "boolean"], "default": null},
+    {"name": "isReward", "type": ["null", "boolean"], "default": null},
+    {"name": "isUsedCoupon", "type": ["null", "boolean"], "default": null},
+    {"name": "is_booked", "type": ["null", "boolean"], "default": null},
+    {"name": "is_near_destination", "type": ["null", "boolean"], "default": null},
+    {"name": "is_near_pickup", "type": ["null", "boolean"], "default": null},
+    {"name": "managed", "type": ["null", {
+        "name": "ManagedInfo", "type": "record", "fields": [
+            {"name": "by", "type": ["null", "string"], "default": null},
+            {"name": "at", "type": ["null", "string"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "manualStatusOverride", "type": ["null", "boolean"], "default": null},
+    {"name": "multistops_deflation_factor_code", "type": ["null", {"type": "array", "items": "string"}], "default": null},
+    {"name": "multistops_inflation_factor_code", "type": ["null", {"type": "array", "items": "string"}], "default": null},
+    {"name": "note_internal", "type": ["null", "string"], "default": null},
+    {"name": "note_rider_internal", "type": ["null", "string"], "default": null},
+    {"name": "note_rider_to_driver", "type": ["null", "string"], "default": null},
+    {"name": "original_cost", "type": ["null", "double"], "default": null},
+    {"name": "original_cost_with_boost", "type": ["null", "double"], "default": null},
+    {"name": "original_estimated_cost", "type": ["null", "double"], "default": null},
+    {"name": "original_user", "type": ["null", {
+        "name": "OriginalUser", "type": "record", "fields": [
+            {"name": "full_name", "type": ["null", "string"], "default": null},
+            {"name": "lastName", "type": ["null", "string"], "default": null},
+            {"name": "firstName", "type": ["null", "string"], "default": null},
+            {"name": "phone", "type": ["null", "string"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "payment_variant", "type": ["null", "string"], "default": null},
+    {"name": "pickup", "type": ["null", "Location"], "default": null},
+    {"name": "pickup_details", "type": ["null", "LocationDetails"], "default": null},
+    {"name": "place_count", "type": ["null", "int"], "default": null},
+    {"name": "planned_for", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+    {"name": "polyline", "type": ["null", "string"], "default": null},
+    {"name": "postpaid_cost", "type": ["null", "int"], "default": null},
+    {"name": "prepaid_cost", "type": ["null", "int"], "default": null},
+    {"name": "radarEnabled", "type": ["null", "boolean"], "default": null},
+    {"name": "radius", "type": ["null", "int"], "default": null},
+    {"name": "re_dispatch", "type": ["null", {
+        "name": "ReDispatchInfo", "type": "record", "fields": [
+            {"name": "initial", "type": ["null", "string"], "default": null},
+            {"name": "previous", "type": ["null", "string"], "default": null},
+            {"name": "retries", "type": ["null", "int"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "recent_assigned_drivers", "type": ["null", {"type": "array", "items": "string"}], "default": null},
+    {"name": "recov", "type": ["null", "string"], "default": null},
+    {"name": "recov_ack", "type": ["null", "boolean"], "default": null},
+    {"name": "redispatched_from", "type": ["null", "string"], "default": null},
+    {"name": "reduction_factor_code", "type": ["null", "string"], "default": null},
+    {"name": "related_to", "type": ["null", "string"], "default": null},
+    {"name": "requested_4_b2b_guest", "type": ["null", "string"], "default": null},
+    {"name": "requested_4_b2b_user", "type": ["null", "string"], "default": null},
+    {"name": "requested_4_b2c_guest", "type": ["null", "boolean"], "default": null},
+    {"name": "requested_at", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+    {"name": "rider", "type": ["null", "string"], "default": null},
+    {"name": "rider_cancel_reason", "type": ["null", "CancelReason"], "default": null},
+    {"name": "rider_device", "type": ["null", "DeviceProfile"], "default": null},
+    {"name": "rider_devices_tokens", "type": ["null", {"type": "array", "items": "string"}], "default": null},
+    {"name": "rider_pay", "type": ["null", "double"], "default": null},
+    {"name": "rider_profile", "type": ["null", {
+        "name": "RiderProfile", "type": "record", "fields": [
+            {"name": "rider_profile_id", "type": ["null", "string"], "default": null},
+            {"name": "business", "type": ["null", "string"], "default": null},
+            {"name": "business_partner", "type": ["null", "string"], "default": null},
+            {"name": "email", "type": ["null", "string"], "default": null},
+            {"name": "finished_trips", "type": ["null", "int"], "default": null},
+            {"name": "first_name", "type": ["null", "string"], "default": null},
+            {"name": "full_name", "type": ["null", "string"], "default": null},
+            {"name": "gender", "type": ["null", "string"], "default": null},
+            {"name": "group", "type": ["null", {
+                "name": "Group", "type": "record", "fields": [
+                    {"name": "budget", "type": ["null", {
+                        "name": "Budget", "type": "record", "fields": [
+                            {"name": "total", "type": ["null", "int"], "default": null},
+                            {"name": "monthlyTotal", "type": ["null", "int"], "default": null},
+                            {"name": "consumed", "type": ["null", "int"], "default": null}
+                        ]
+                    }], "default": null},
+                    {"name": "permissions", "type": ["null", {
+                        "name": "GroupPermissions", "type": "record", "fields": [
+                            {"name": "byPassBalance", "type": ["null", "boolean"], "default": null},
+                            {"name": "autoApproval", "type": ["null", "boolean"], "default": null}
+                        ]
+                    }], "default": null},
+                    {"name": "group_id", "type": ["null", "string"], "default": null},
+                    {"name": "name", "type": ["null", "string"], "default": null},
+                    {"name": "business", "type": ["null", "string"], "default": null},
+                    {"name": "isDeleted", "type": ["null", "boolean"], "default": null},
+                    {"name": "program", "type": ["null", "string"], "default": null},
+                    {"name": "created_at", "type": ["null", "string"], "default": null},
+                    {"name": "updated_at", "type": ["null", "string"], "default": null},
+                    {"name": "group_version", "type": ["null", "int"], "default": null}
+                ]
+            }], "default": null},
+            {"name": "last_name", "type": ["null", "string"], "default": null},
+            {"name": "phone", "type": ["null", "string"], "default": null},
+            {"name": "rating", "type": ["null", "double"], "default": null},
+            {"name": "review_count", "type": ["null", "int"], "default": null},
+            {"name": "rider", "type": ["null", "string"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "rider_redispatched", "type": ["null", "boolean"], "default": null},
+    {"name": "rider_review", "type": ["null", {
+        "name": "RiderReview", "type": "record", "fields": [
+            {"name": "comment", "type": ["null", "string"], "default": null},
+            {"name": "predefined_comments", "type": ["null", {"type": "array", "items": "string"}], "default": null},
+            {"name": "rating", "type": ["null", "int"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "service", "type": ["null", "string"], "default": null},
+    {"name": "service_config", "type": ["null", "string"], "default": null},
+    {"name": "service_family", "type": ["null", "string"], "default": null},
+    {"name": "servicetype", "type": ["null", "string"], "default": null},
+    {"name": "showPrice4B2bUser", "type": ["null", "boolean"], "default": null},
+    {"name": "started_at", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+    {"name": "status", "type": ["null", "string"], "default": null},
+    {"name": "status_history", "type": ["null", {"type": "array", "items": {
+        "name": "StatusHistory", "type": "record", "fields": [
+            {"name": "status_history_id", "type": ["null", "string"], "default": null},
+            {"name": "driver", "type": ["null", "string"], "default": null},
+            {"name": "insertFrom", "type": ["null", "string"], "default": null},
+            {"name": "location", "type": ["null", "DriverLocation"], "default": null},
+            {"name": "status", "type": ["null", "string"], "default": null},
+            {"name": "time", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null}
+        ]
+    }}], "default": null},
+    {"name": "stops_points_details", "type": ["null", {"type": "array", "items": {
+        "name": "StopPointDetails", "type": "record", "fields": [
+            {"name": "lvl0_id", "type": ["null", "string"], "default": null},
+            {"name": "lvl1_id", "type": ["null", "string"], "default": null},
+            {"name": "lvl2_id", "type": ["null", "string"], "default": null},
+            {"name": "lvl3_id", "type": ["null", "string"], "default": null},
+            {"name": "lvl0_label", "type": ["null", "string"], "default": null},
+            {"name": "lvl1_label", "type": ["null", "string"], "default": null},
+            {"name": "lvl2_label", "type": ["null", "string"], "default": null},
+            {"name": "lvl3_label", "type": ["null", "string"], "default": null},
+            {"name": "map_path", "type": ["null", "string"], "default": null},
+            {"name": "map_address", "type": ["null", "string"], "default": null},
+            {"name": "lat", "type": ["null", "string"], "default": null},
+            {"name": "lng", "type": ["null", "string"], "default": null},
+            {"name": "zone_code", "type": ["null", "string"], "default": null},
+            {"name": "stop_point_details_id", "type": ["null", "string"], "default": null}
+        ]
+    }}], "default": null},
+    {"name": "sub_trip_data", "type": ["null", {
+        "name": "SubTripData", "type": "record", "fields": [
+            {"name": "caution", "type": ["null", "int"], "default": null},
+            {"name": "current_sub_trip_status", "type": ["null", "string"], "default": null},
+            {"name": "stops_data", "type": ["null", {"type": "array", "items": {
+                "name": "StopData", "type": "record", "fields": [
+                    {"name": "eta", "type": ["null", "int"], "default": null},
+                    {"name": "distance", "type": ["null", "int"], "default": null},
+                    {"name": "cost", "type": ["null", "int"], "default": null},
+                    {"name": "pickup", "type": ["null", {
+                        "name": "StopLocation", "type": "record", "fields": [
+                            {"name": "location", "type": ["null", "DriverLocation"], "default": null},
+                            {"name": "formatted_address", "type": ["null", "string"], "default": null}
+                        ]
+                    }], "default": null},
+                    {"name": "destination", "type": ["null", "StopLocation"], "default": null},
+                    {"name": "status", "type": ["null", "string"], "default": null},
+                    {"name": "stop_data_id", "type": ["null", "string"], "default": null}
+                ]
+            }}], "default": null},
+            {"name": "sub_trip_index", "type": ["null", "int"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "subscriber", "type": ["null", "boolean"], "default": null},
+    {"name": "surge", "type": ["null", {
+        "name": "Surge", "type": "record", "fields": [
+            {"name": "amount", "type": ["null", "double"], "default": null},
+            {"name": "flag", "type": ["null", "boolean"], "default": null},
+            {"name": "factor", "type": ["null", "double"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "surgePrivate", "type": ["null", {
+        "name": "SurgePrivate", "type": "record", "fields": [
+            {"name": "amount", "type": ["null", "double"], "default": null},
+            {"name": "flag", "type": ["null", "boolean"], "default": null},
+            {"name": "rate", "type": ["null", "double"], "default": null},
+            {"name": "rule", "type": ["null", {
+                "name": "SurgeRule", "type": "record", "fields": [
+                    {"name": "surge_rule_id", "type": ["null", "string"], "default": null},
+                    {"name": "version", "type": ["null", "string"], "default": null}
+                ]
+            }], "default": null}
+        ]
+    }], "default": null},
+    {"name": "tags", "type": ["null", {"type": "array", "items": {"type": "array", "items": "string"}}], "default": null},
+    {"name": "tip", "type": ["null", {
+        "name": "Tip", "type": "record", "fields": [
+            {"name": "epay", "type": ["null", {
+                "name": "TipEpay", "type": "record", "fields": [
+                    {"name": "order_id", "type": ["null", "string"], "default": null},
+                    {"name": "status", "type": ["null", {
+                        "name": "TipEpayStatus", "type": "record", "fields": [
+                            {"name": "current", "type": ["null", "string"], "default": null},
+                            {"name": "code", "type": ["null", "int"], "default": null},
+                            {"name": "note", "type": ["null", "string"], "default": null},
+                            {"name": "created_at", "type": ["null", "string"], "default": null},
+                            {"name": "updated_at", "type": ["null", "string"], "default": null}
+                        ]
+                    }], "default": null},
+                    {"name": "type", "type": ["null", "string"], "default": null}
+                ]
+            }], "default": null},
+            {"name": "ignored", "type": ["null", "boolean"], "default": null},
+            {"name": "originalValue", "type": ["null", "int"], "default": null},
+            {"name": "payment_method", "type": ["null", "string"], "default": null},
+			{"name": "taxe", "type": ["null", {
+                "name": "Taxe", "type": "record", "fields": [
+                    {"name": "total", "type": ["null", "int"], "default": null},
+                    {"name": "details", "type": ["null", {"type": "array", "items": "string"}], "default": null}
+                ]
+            }], "default": null},
+            {"name": "type", "type": ["null", "string"], "default": null},
+            {"name": "value", "type": ["null", "int"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "toll_cost", "type": ["null", "int"], "default": null},
+    {"name": "tripExtension", "type": ["null", {
+        "name": "TripExtension", "type": "record", "fields": [
+            {"name": "riderRequestExtension", "type": ["null", "boolean"], "default": null},
+            {"name": "estimatedCostBeforeExtension", "type": ["null", "string"], "default": null},
+            {"name": "originalEstimatedCostBeforeExtension", "type": ["null", "string"], "default": null},
+            {"name": "enableTripExtension", "type": ["null", "boolean"], "default": null}
+        ]
+    }], "default": null},
+    {"name": "trip_uid", "type": ["null", "string"], "default": null},
+    {"name": "updated_at", "type": ["null", {"type": "long", "logicalType": "timestamp-millis"}], "default": null},
+    {"name": "updateDate","type": ["null", "string"],"default": null}
+  ]
+}
