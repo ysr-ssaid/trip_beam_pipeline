@@ -14,53 +14,51 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TripToTableRowConverter {
-  // Add logger
+  // add logger
   private static final Logger LOG = LoggerFactory.getLogger(TripToTableRowConverter.class);
 
   public static class ConvertToTableRowFn extends DoFn < Trip, TableRow > {
     private static final long serialVersionUID = 1L;
 
-    // --- Metrics counters ---
+
     private final Counter successCounter = Metrics.counter(ConvertToTableRowFn.class, "success_count");
     private final Counter errorCounter = Metrics.counter(ConvertToTableRowFn.class, "error_count");
     private final Counter nullCounter = Metrics.counter(ConvertToTableRowFn.class, "null_trip_count");
 
     @ProcessElement
     public void processElement(@Element Trip trip, OutputReceiver < TableRow > out) {
-      String docId = "unknown"; // Default for logging
+      String docId = "unknown"; // default for logging
 
       try {
-        // --- Null Safety ---
         if (trip == null) {
           nullCounter.inc();
           LOG.warn("Received null Trip object, skipping.");
           return;
         }
 
-        // --- Retrieve ID for logging ---
         if (trip.getMongoId() != null) {
           docId = trip.getMongoId().toString();
         }
 
-        // --- Convert Trip → TableRow ---
+        // convert Trip → TableRow 
         TableRow row = convertTripToTableRow(trip);
         out.output(row);
         successCounter.inc();
 
       } catch (OutOfMemoryError oom) {
-        // Handle critical memory failure separately
+        // handle critical memory failure separately
         errorCounter.inc();
         LOG.error("!!! OUT OF MEMORY ERROR !!! converting Trip to TableRow for ID: {}. Skipping this record.",
           docId, oom);
-        // Rethrow to ensure Dataflow fails cleanly for OOM
+        // rethrow to ensure Dataflow fails cleanly for OOM
         throw oom;
 
       } catch (Throwable t) {
-        // Catch all other unexpected errors to avoid pipeline crash
+        // aatch all other unexpected errors to avoid pipeline crash
         errorCounter.inc();
         LOG.error("CRITICAL ERROR converting Trip to TableRow for ID: {} - Error: {}",
           docId, t.getMessage(), t);
-        // Don't rethrow — continue pipeline safely
+        // continue pipeline safely
       }
     }
   }

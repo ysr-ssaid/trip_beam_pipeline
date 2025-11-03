@@ -1,3 +1,5 @@
+//build the fields from avro schema with safe cast
+//check MongoAvroUtils.java for safe cast helper functions
 package org.pipeline.trips;
 
 import org.bson.Document;

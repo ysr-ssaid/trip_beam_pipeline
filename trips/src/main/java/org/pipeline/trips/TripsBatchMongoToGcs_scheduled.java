@@ -18,7 +18,7 @@ public class TripsBatchMongoToGcs_scheduled {
 
     private static final Logger LOG = LoggerFactory.getLogger(TripsBatchMongoToGcs_scheduled.class);
 
-    // Helper method to build the filter document
+    // filter method
     private static Document buildIncrementalFilterDocument(String startDate, String endDate) {
         if (startDate == null || startDate.isEmpty() || endDate == null || endDate.isEmpty()) {
             return null;
@@ -27,23 +27,22 @@ public class TripsBatchMongoToGcs_scheduled {
         try {
             java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
             
-            // 1. Parse Start Date (Inclusive)
+            // start date
             java.time.LocalDate startLocalDate = java.time.LocalDate.parse(startDate, formatter);
             java.util.Date startDateObj = java.sql.Date.valueOf(startLocalDate);
             
-            // 2. Parse End Date and add 1 day to make the range exclusive
+            // end date
             java.time.LocalDate endLocalDate = java.time.LocalDate.parse(endDate, formatter);
             java.time.LocalDate endDateExclusive = endLocalDate.plusDays(1);
             java.util.Date endDateObj = java.sql.Date.valueOf(endDateExclusive);
 
-            // Build filter for the time window: { $gte: startDate, $lt: endDateExclusive }
+            // Build filter 
             Document dateWindowFilter = new Document("$gte", startDateObj)
                                             .append("$lt", endDateObj);
             
-            // Filter 1: updated_at is in the window
+            // Filter
             Document updatedAtFilter = new Document("updated_at", dateWindowFilter);
-            
-            // Filter 2: updated_at is null AND created_at is in the window
+           
             Document missingUpdatedAt = new Document("updated_at", 
                 new Document("$exists", false));
             Document createdAtFilter = new Document("created_at", dateWindowFilter);
@@ -51,7 +50,6 @@ public class TripsBatchMongoToGcs_scheduled {
             Document andFilter = new Document("$and", 
                 java.util.Arrays.asList(missingUpdatedAt, createdAtFilter));
             
-            // Combine with $or
             return new Document("$or", 
                 java.util.Arrays.asList(updatedAtFilter, andFilter));
             
@@ -69,7 +67,6 @@ public class TripsBatchMongoToGcs_scheduled {
         
         Pipeline pipeline = Pipeline.create(options);
 
-        // Incremental logic
         boolean incremental = options.getIncremental() != null && 
                               Boolean.TRUE.equals(options.getIncremental().get());
         
@@ -91,14 +88,14 @@ public class TripsBatchMongoToGcs_scheduled {
             }
         }
 
-       // Build MongoDB read
+       // build MongoDB read
        MongoDbIO.Read mongoRead = MongoDbIO.read()
                .withUri(options.getMongoUri().get())
                .withDatabase(options.getMongoDatabase().get())
                .withCollection(options.getMongoCollection().get())
                .withBucketAuto(false); 
 
-       // Apply incremental filter if enabled
+       // apply incremental filter if enabled
        if (incremental && startDate != null && endDate != null) {
            Document filter = buildIncrementalFilterDocument(startDate, endDate);
            if (filter != null) {
@@ -113,16 +110,15 @@ public class TripsBatchMongoToGcs_scheduled {
            LOG.info("Running full refresh");
        }
        
-        // 1. Read from MongoDB and convert to Avro Trip
         PCollection<Trip> trips = pipeline
                 .apply("ReadFromMongoDB", mongoRead)
                 .apply("MapToAvro", ParDo.of(new ConvertDocumentToTripFn()));
 
-        // 2. Reshuffle (This is critical to prevent timeouts)
+        // Reshuffle (This is critical to prevent timeouts)
         PCollection<Trip> tripsReshuffled = trips
                 .apply("BreakFusion", Reshuffle.viaRandomKey());
         
-        // 3. Convert to TableRow and write to BigQuery
+        // Convert to TableRow and write to BigQuery
         tripsReshuffled.apply("ConvertToTableRow", ParDo.of(new TripToTableRowConverter.ConvertToTableRowFn()))
         .apply("WriteToBigQueryStaging", BigQueryIO.writeTableRows()
                 .to(options.getBigQueryTable())

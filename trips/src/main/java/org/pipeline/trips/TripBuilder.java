@@ -7,12 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-import java.util.Objects; // Make sure this is imported
+import java.util.Objects;
 
-// --- Imports added for robust _id handling ---
-
-
-// -------------------------------------------
 
 import static org.pipeline.trips.MongoAvroUtils.*;
 import static org.pipeline.trips.TripAvroBuilderUtils.*;
@@ -20,18 +16,15 @@ import static org.pipeline.trips.TripComplexBuilders.*;
 import org.bson.types.ObjectId;
 public class TripBuilder {
     
-    // NO batching or System.gc() constants
     
 	public static Trip buildTrip(Document input) {
         if (input == null) {
             throw new IllegalArgumentException("Input document cannot be null");
         }
 
-        // --- START OF NEW LOGIC ---
-        // Check the _id type BEFORE doing any work.
         Object idObject = input.get("_id");
         if (!(idObject instanceof ObjectId)) {
-            // If _id is null or not an ObjectId, return null to skip it.
+            // skip if _id null
             return null; 
         }
 

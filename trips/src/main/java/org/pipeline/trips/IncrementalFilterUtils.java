@@ -1,3 +1,9 @@
+//helper function for data filtering using start and end dates if selected 
+//check TripsBatchMongoToGcs_scheduled.java:
+//if incremental is set to true in gcloud cli it'll take into consideration the start and end date 
+//if incremental is set to true and no start or end dates are set, the pipeline start date (yesterdays +1)
+//if incremental is set to false and start & end dates to empty string, the full refresh will be applied
+
 package org.pipeline.trips;
 
 import com.mongodb.client.model.Filters;

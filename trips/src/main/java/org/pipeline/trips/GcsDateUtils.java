@@ -1,3 +1,5 @@
+//the avro gcp bucked functionalities are disabled for now, pending pipeline validation
+// once applied data will be saved onto bigquery and gss as avro for DR purposes  
 package org.pipeline.trips;
 
 import com.google.cloud.storage.Storage;

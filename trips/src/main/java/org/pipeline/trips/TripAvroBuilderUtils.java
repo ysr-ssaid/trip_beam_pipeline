@@ -20,8 +20,6 @@ public class TripAvroBuilderUtils {
 
 
 
-    // --- Core Record Builders ---
-
     
 
     public static Label buildLabel(Document labelDoc) {

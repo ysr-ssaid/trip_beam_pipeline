@@ -1,10 +1,14 @@
+//number of files in a single partition, calculate dynamically
+//not fully tested on production
+//needs more investigations
+//default 0, if left empty
 package org.pipeline.trips;
 
 public class SmartShardCalculator {
 
     public static int calculateForTripsData(long dailyTrips, int targetFileSizeMB) {
-        // Your specific trips data calculation
-        int avgTripRecordSizeBytes = 2048; // 2KB average per trip
+        // specific trips data calculation
+        int avgTripRecordSizeBytes = 2048; 
 
         return calculateShards(dailyTrips, avgTripRecordSizeBytes, targetFileSizeMB);
     }
@@ -19,13 +23,13 @@ public class SmartShardCalculator {
         long dailyBytes = estimatedDailyRecords * avgRecordSizeBytes;
         long dailyDataSizeMB = dailyBytes / (1024 * 1024);
 
-        // Ensure targetFileSizeMB is at least 1 to avoid division by zero
+        // avoid division by 0, make sure targetFileSizeMB is at least 1
         int safeTargetFileSizeMB = Math.max(1, targetFileSizeMB);
 
-        // Calculate shards (ceiling division)
+        // calculate shards (ceiling division)
         int calculatedShards = (int) Math.ceil((double) dailyDataSizeMB / safeTargetFileSizeMB);
 
-        // Apply reasonable bounds (1-20 shards for better performance)
+        // apply reasonable bounds (1-20 shards for better performance)
         int finalShards = Math.max(1, Math.min(calculatedShards, 20));
 
         System.out.println("Shard Calculation:");

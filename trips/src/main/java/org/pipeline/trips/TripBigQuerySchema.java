@@ -140,12 +140,8 @@ public class TripBigQuerySchema {
         fields.add(new TableFieldSchema().setName("booking_configs").setType("RECORD").setFields(getBookingConfigsSchema()));
         fields.add(new TableFieldSchema().setName("boost").setType("RECORD").setFields(getBoostSchema()));
         fields.add(new TableFieldSchema().setName("challenge").setType("RECORD").setFields(getChallengeSchema()));
-        fields.add(new TableFieldSchema().setName("cost_breakdown").setType("RECORD").setFields(getCostBreakdownSchema()));
-        
-        // --- THIS IS THE MODIFIED SECTION ---
+        fields.add(new TableFieldSchema().setName("cost_breakdown").setType("RECORD").setFields(getCostBreakdownSchema()));        
         fields.add(new TableFieldSchema().setName("data_save_all_changes_on_trip_pricing").setType("RECORD").setFields(getDataSaveAllChangesOnTripPricingSchema()));
-        // --- END OF MODIFIED SECTION ---
-
         fields.add(new TableFieldSchema().setName("details").setType("RECORD").setFields(getTripDetailsSchema()));
         fields.add(new TableFieldSchema().setName("discount_ratio").setType("RECORD").setFields(getDiscountRatioSchema()));
         fields.add(new TableFieldSchema().setName("dispatch_config").setType("RECORD").setFields(getDispatchConfigSchema()));
@@ -833,8 +829,9 @@ public class TripBigQuerySchema {
         fields.add(new TableFieldSchema().setName("version").setType("STRING"));
         return fields;
     }
+    
+    //tip schema is disabled for now
 
-    // --- START OF TIP SCHEMA (from previous fix) ---
  /*   private static List<TableFieldSchema> getTipSchema() {
         List<TableFieldSchema> fields = new ArrayList<>();
         fields.add(new TableFieldSchema().setName("epay").setType("RECORD").setFields(getTipEpaySchema()));
@@ -883,7 +880,6 @@ public class TripBigQuerySchema {
         fields.add(new TableFieldSchema().setName("originalValue").setType("INTEGER"));
         return fields;
     }
-    // --- END OF TIP SCHEMA ---
 */
     private static List<TableFieldSchema> getTripExtensionSchema() {
         List<TableFieldSchema> fields = new ArrayList<>();
